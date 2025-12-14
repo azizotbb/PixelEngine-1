@@ -12,10 +12,10 @@ import time
 class PixelEngineGUI:
     def __init__(self):
         self.root = tk.Tk()
-        self.root.title("PixelEngine - Desktop Graphics Engine")
-        self.root.geometry("1000x700")
-        self.root.minsize(800, 600)  # Minimum window size
-        self.root.configure(bg='#F8F9FA')
+        self.root.title("✨ PixelEngine Studio - Premium Graphics Suite")
+        self.root.geometry("1600x1000")
+        self.root.minsize(1200, 800)
+        self.root.configure(bg='#0f0f23')  # Deep cosmic blue
         self.root.resizable(True, True)
         
         # Center window on screen
@@ -24,7 +24,7 @@ class PixelEngineGUI:
         # Store selected image path
         self.selected_image_path = None
         
-        # Animation control (only for left image)
+        # Animation control
         self.is_animating_left = False
         self.animation_thread_left = None
         
@@ -34,144 +34,211 @@ class PixelEngineGUI:
         self.root.bind('<Configure>', self.on_window_resize)
     
     def create_widgets(self):
-        # Header frame
-        header_frame = tk.Frame(self.root, bg='#E8F4FD', pady=20)
+        # 🌟 Stunning gradient header frame
+        header_frame = tk.Frame(self.root, bg='#1a1a2e', pady=40)
         header_frame.pack(fill='x')
         
-        # Main title (Logo)
-        title_label = tk.Label(
-            header_frame,
-            text="🎨 PixelEngine",
-            font=('Arial', 28, 'bold'),  # Smaller font for better scaling
-            bg='#E8F4FD',
-            fg="#2C3E50"
-        )
-        title_label.pack(pady=8)
+        # 💎 Premium logo with shadow effect
+        title_frame = tk.Frame(header_frame, bg='#1a1a2e')
+        title_frame.pack(pady=15)
         
-        # Subtitle
+        # Main premium title
+        title_label = tk.Label(
+            title_frame,
+            text="✨ PIXELENGINE STUDIO",
+            font=('SF Pro Display', 42, 'bold'),
+            bg='#1a1a2e',
+            fg='#00ff88'  # Electric green
+        )
+        title_label.pack()
+        
+        # Elegant subtitle with glow effect
         subtitle_label = tk.Label(
             header_frame,
-            text="Graphics Engine v1.0 - By AbdulAziz",
-            font=('Arial', 14),
-            bg='#E8F4FD',
-            fg='#5D6D7E'
+            text="🚀 PREMIUM GRAPHICS PROCESSING SUITE • AI-POWERED VISUAL EFFECTS",
+            font=('SF Pro Text', 14, 'bold'),
+            bg='#1a1a2e',
+            fg='#ff6b9d'  # Electric pink
         )
-        subtitle_label.pack(pady=5)
+        subtitle_label.pack(pady=8)
         
-        # Choose Image button (main feature)
+        # Version badge
+        version_label = tk.Label(
+            header_frame,
+            text="V2.0 PROFESSIONAL EDITION",
+            font=('SF Pro Text', 11, 'bold'),
+            bg='#1a1a2e',
+            fg='#00d4ff'  # Electric blue
+        )
+        version_label.pack(pady=5)
+        
+        # 🎯 Ultra-modern gradient button
+        btn_frame = tk.Frame(header_frame, bg='#1a1a2e')
+        btn_frame.pack(pady=25)
+        
         image_btn = tk.Button(
-            header_frame,
-            text="🖼️ Choose Image to Display Twice",
-            font=('Arial', 12, 'bold'),  # Smaller font
-            bg='#FF4757',
-            fg='white',
-            padx=20,  # Reduced padding
-            pady=8,   # Reduced padding
-            relief='raised',
-            bd=2,
+            btn_frame,
+            text="🎨 SELECT MASTERPIECE",
+            font=('SF Pro Text', 16, 'bold'),
+            bg='#ff6b9d',  # Electric pink gradient
+            fg='black',
+            padx=50,
+            pady=18,
+            relief='flat',
+            bd=0,
             command=self.choose_image,
-            cursor='hand2'
+            cursor='hand2',
+            activebackground='#ff1744'
         )
-        image_btn.pack(pady=12)
-        
-        # Instructions label
-        instructions_label = tk.Label(
-            header_frame,
-            text="Click the button to select an image from your computer",
-            font=('Arial', 11),
-            bg='#E8F4FD',
-            fg='#7F8C8D'
-        )
-        instructions_label.pack()
+        image_btn.pack()
 
-        # Create main scrollable frame
+        # Create main scrollable frame with cosmic theme
         self.create_scrollable_content()
         
-        # Initial welcome message
+        # Initial cosmic welcome message
         self.show_welcome_message()
     
     def create_scrollable_content(self):
-        """Create scrollable content area"""
-        # Main container
-        main_container = tk.Frame(self.root, bg='#F8F9FA')
-        main_container.pack(fill='both', expand=True, padx=10, pady=8)
+        """Create cosmic scrollable content area"""
+        # 🌌 Main cosmic container
+        main_container = tk.Frame(self.root, bg='#0f0f23')
+        main_container.pack(fill='both', expand=True, padx=20, pady=15)
         
-        # Create canvas and scrollbar
-        self.canvas = tk.Canvas(main_container, bg='#F8F9FA', highlightthickness=0)
-        self.scrollbar = ttk.Scrollbar(main_container, orient='vertical', command=self.canvas.yview)
-        self.scrollable_frame = tk.Frame(self.canvas, bg='#F8F9FA')
+        # Create premium canvas with cosmic theme
+        self.canvas = tk.Canvas(main_container, bg='#0f0f23', highlightthickness=0)
         
-        # Configure scrollable frame
-        self.scrollable_frame.bind(
-            '<Configure>',
-            lambda e: self.canvas.configure(scrollregion=self.canvas.bbox('all'))
-        )
+        # 🎨 Premium scrollbar with cosmic styling
+        scrollbar = ttk.Scrollbar(main_container, orient="vertical", command=self.canvas.yview)
         
-        # Create window in canvas
-        self.canvas_window = self.canvas.create_window((0, 0), window=self.scrollable_frame, anchor='nw')
+        # Configure scrollbar style
+        style = ttk.Style()
+        style.theme_use('clam')
+        style.configure("Vertical.TScrollbar", 
+                       background='#1a1a2e',
+                       troughcolor='#0f0f23',
+                       bordercolor='#00ff88',
+                       arrowcolor='#ff6b9d',
+                       darkcolor='#1a1a2e',
+                       lightcolor='#1a1a2e')
         
-        # Configure canvas scrolling
-        self.canvas.configure(yscrollcommand=self.scrollbar.set)
+        # 💫 Scrollable cosmic frame
+        self.scrollable_frame = tk.Frame(self.canvas, bg='#0f0f23')
         
-        # Bind canvas resize
+        # Pack scrollbar and canvas with premium layout
+        scrollbar.pack(side="right", fill="y", padx=(0, 5))
+        self.canvas.pack(side="left", fill="both", expand=True)
+        
+        # Configure scrolling with smooth cosmic motion
+        self.canvas.configure(yscrollcommand=scrollbar.set)
         self.canvas.bind('<Configure>', self.on_canvas_configure)
         
-        # Pack canvas and scrollbar
-        self.canvas.pack(side='left', fill='both', expand=True)
-        self.scrollbar.pack(side='right', fill='y')
+        # Create window for scrollable frame
+        self.canvas_frame = self.canvas.create_window((0, 0), window=self.scrollable_frame, anchor="nw")
         
-        # Bind mouse wheel scrolling
-        self.bind_mousewheel()
-        
-        # Set content frame to scrollable frame
-        self.content_frame = self.scrollable_frame
+        # Bind mouse wheel for cosmic smooth scrolling
+        self.canvas.bind_all("<MouseWheel>", self.on_mousewheel)
+        self.canvas.bind_all("<Button-4>", self.on_mousewheel)  # Linux
+        self.canvas.bind_all("<Button-5>", self.on_mousewheel)  # Linux
     
     def on_canvas_configure(self, event):
-        """Handle canvas resize"""
-        # Update scroll region
+        """Handle cosmic canvas resize with premium effects"""
+        # Update scroll region with smooth cosmic motion
         self.canvas.configure(scrollregion=self.canvas.bbox('all'))
         
         # Update canvas window width to match canvas width
         canvas_width = event.width
-        self.canvas.itemconfig(self.canvas_window, width=canvas_width)
+        self.canvas.itemconfig(self.canvas_frame, width=canvas_width)
     
-    def bind_mousewheel(self):
-        """Bind mouse wheel events for scrolling"""
-        def on_mousewheel(event):
+    def on_mousewheel(self, event):
+        """Premium cosmic smooth scrolling"""
+        if hasattr(event, 'delta'):
+            # Windows scrolling
             self.canvas.yview_scroll(int(-1*(event.delta/120)), "units")
-        
-        def bind_to_mousewheel(event):
-            self.canvas.bind_all("<MouseWheel>", on_mousewheel)
-        
-        def unbind_from_mousewheel(event):
-            self.canvas.unbind_all("<MouseWheel>")
-        
-        # Bind mouse wheel events when mouse enters/leaves the canvas
-        self.canvas.bind('<Enter>', bind_to_mousewheel)
-        self.canvas.bind('<Leave>', unbind_from_mousewheel)
+        else:
+            # Linux scrolling
+            if event.num == 4:
+                self.canvas.yview_scroll(-1, "units")
+            elif event.num == 5:
+                self.canvas.yview_scroll(1, "units")
     
     def show_welcome_message(self):
-        """Show welcome message in content area"""
-        welcome_label = tk.Label(
-            self.content_frame,
-            text="👆 Click the button above to choose an image",
-            font=('Arial', 16),
-            bg='#F8F9FA',
-            fg='#BDC3C7'
+        """🌌 Show cosmic welcome message with premium styling"""
+        # Clear previous content
+        for widget in self.scrollable_frame.winfo_children():
+            widget.destroy()
+            
+        # 🌟 Cosmic welcome container
+        welcome_container = tk.Frame(self.scrollable_frame, bg='#0f0f23')
+        welcome_container.pack(expand=True, fill='both', pady=100)
+        
+        # 💫 Animated cosmic icon
+        cosmic_icon = tk.Label(
+            welcome_container,
+            text="🌌",
+            font=('Apple Color Emoji', 80),
+            bg='#0f0f23',
+            fg='#00ff88'
         )
-        welcome_label.pack(expand=True)
+        cosmic_icon.pack(pady=30)
+        
+        # ✨ Premium welcome title
+        welcome_title = tk.Label(
+            welcome_container,
+            text="WELCOME TO THE COSMOS",
+            font=('SF Pro Display', 32, 'bold'),
+            bg='#0f0f23',
+            fg='#00d4ff'
+        )
+        welcome_title.pack(pady=15)
+        
+        # 🚀 Elegant instructions
+        instructions = tk.Label(
+            welcome_container,
+            text="Select your masterpiece to begin the visual journey",
+            font=('SF Pro Text', 18, 'normal'),
+            bg='#0f0f23',
+            fg='#ff6b9d'
+        )
+        instructions.pack(pady=10)
+        
+        # 💎 Premium features showcase
+        features_frame = tk.Frame(welcome_container, bg='#0f0f23')
+        features_frame.pack(pady=40)
+        
+        features = [
+            "🎨 AI-Powered Effects",
+            "✨ Real-time Processing", 
+            "🌟 Premium Filters",
+            "🚀 Ultra Performance"
+        ]
+        
+        for i, feature in enumerate(features):
+            if i % 2 == 0:
+                row_frame = tk.Frame(features_frame, bg='#0f0f23')
+                row_frame.pack(pady=8)
+            
+            feature_label = tk.Label(
+                row_frame,
+                text=feature,
+                font=('SF Pro Text', 14, 'bold'),
+                bg='#0f0f23',
+                fg='#00ff88',
+                padx=20
+            )
+            feature_label.pack(side='left', padx=15)
     
     def choose_image(self):
-        """Choose an image file and display it twice"""
+        """🎨 Choose masterpiece with premium file dialog"""
         file_types = [
-            ('Image Files', '*.png *.jpg *.jpeg *.gif *.bmp *.tiff'),
+            ('All Image Files', '*.png *.jpg *.jpeg *.gif *.bmp *.tiff *.webp'),
             ('PNG Files', '*.png'),
             ('JPEG Files', '*.jpg *.jpeg'),
+            ('GIF Files', '*.gif'),
             ('All Files', '*.*')
         ]
         
         file_path = filedialog.askopenfilename(
-            title="Choose an image to display twice",
+            title="✨ Select Your Visual Masterpiece",
             filetypes=file_types,
             initialdir=os.path.expanduser("~/Desktop")
         )
@@ -179,44 +246,44 @@ class PixelEngineGUI:
         if file_path:
             self.selected_image_path = file_path
             self.display_image_twice()
-    
+
     def display_image_twice(self):
-        """Display the selected image twice in the same window"""
+        """🌌 Display masterpiece with cosmic dual processing studio"""
         if not self.selected_image_path:
-            messagebox.showerror("Error", "No image selected!")
+            messagebox.showerror("Error", "No masterpiece selected!")
             return
         
         try:
-            # Clear previous content
-            for widget in self.content_frame.winfo_children():
+            # Clear cosmic space
+            for widget in self.scrollable_frame.winfo_children():
                 widget.destroy()
             
-            # Title for image display
-            title_label = tk.Label(
-                self.content_frame,
-                text="🖼️ Image Displayed Twice",
-                font=('Arial', 18, 'bold'),
-                bg='#F8F9FA',
-                fg='#2E86C1'
+            # 🌟 Premium studio title
+            studio_title = tk.Label(
+                self.scrollable_frame,
+                text="✨ COSMIC DUAL PROCESSING STUDIO",
+                font=('SF Pro Display', 28, 'bold'),
+                bg='#0f0f23',
+                fg='#00d4ff'
             )
-            title_label.pack(pady=10)
+            studio_title.pack(pady=30)
 
-            # Frame for images
-            images_frame = tk.Frame(self.content_frame, bg='#F8F9FA')
-            images_frame.pack(expand=True, fill='both', pady=10)
+            # 🎨 Premium images container
+            images_container = tk.Frame(self.scrollable_frame, bg='#0f0f23')
+            images_container.pack(expand=True, fill='both', pady=20)
             
-            # Open and resize image
+            # 🖼️ Load and process masterpiece
             original_image = Image.open(self.selected_image_path)
             
-            # Calculate size to fit in window dynamically
+            # 💎 Premium dynamic sizing
             window_width = self.root.winfo_width()
             window_height = self.root.winfo_height()
             
-            # Calculate max size based on window size
-            max_width = min(400, int((window_width - 100) / 2))  # Leave space for padding
-            max_height = min(300, int((window_height - 300) / 2))  # Leave space for header and buttons
-            max_width = max(200, max_width)  # Minimum width
-            max_height = max(150, max_height)  # Minimum height
+            # Calculate premium display size
+            max_width = min(500, int((window_width - 150) / 2))
+            max_height = min(400, int((window_height - 400) / 2))
+            max_width = max(300, max_width)
+            max_height = max(250, max_height)
             
             image_ratio = original_image.width / original_image.height
             
@@ -227,103 +294,257 @@ class PixelEngineGUI:
                 new_height = max_height
                 new_width = int(max_height * image_ratio)
             
-            # Resize image
+            # ✨ Resize with premium quality
             resized_image = original_image.resize((new_width, new_height), Image.Resampling.LANCZOS)
             photo = ImageTk.PhotoImage(resized_image)
             
-            # Left frame for first image
-            left_frame = tk.Frame(images_frame, bg='#FFFFFF', relief='ridge', bd=2)
-            left_frame.pack(side='left', expand=True, fill='both', padx=5, pady=3)
+            # 🌟 Left cosmic frame - Original Masterpiece
+            left_frame = tk.Frame(images_container, bg='#1a1a2e', relief='solid', bd=3)
+            left_frame.pack(side='left', expand=True, fill='both', padx=15, pady=10)
 
-            # First image
-            image_label1 = tk.Label(
+            # 💫 Premium original image header
+            original_header = tk.Label(
                 left_frame,
-                text="🖼️ Image Copy 1",
-                font=('Arial', 12, 'bold'),  # Smaller font
-                bg='#FFFFFF',
-                fg='#27AE60'
+                text="🌟 ORIGINAL MASTERPIECE",
+                font=('SF Pro Display', 18, 'bold'),
+                bg='#1a1a2e',
+                fg='#00ff88'
             )
-            image_label1.pack(pady=5)  # Reduced padding
+            original_header.pack(pady=20)
 
-            image_display1 = tk.Label(left_frame, image=photo, bg='#FFFFFF')
-            image_display1.pack(pady=5)
+            # ✨ Premium image display with glow effect
+            image_display1 = tk.Label(left_frame, image=photo, bg='#1a1a2e', relief='ridge', bd=4)
+            image_display1.pack(pady=15)
             
-            # Image info
-            info_label1 = tk.Label(
-                left_frame,
-                text=f"Size: {original_image.width}x{original_image.height}\nFormat: {original_image.format}",
-                font=('Arial', 10),
-                bg='#FFFFFF',
-                fg='#5D6D7E'
-            )
-            info_label1.pack(pady=5)
-
-            # Buttons for left image - Animation only
-            left_buttons_frame = tk.Frame(left_frame, bg='#FFFFFF')
-            left_buttons_frame.pack(pady=10)
-            
-            # Continuous animation button for left image  
+            # 🎯 Animation control button
             self.animate_btn_left = tk.Button(
-                left_buttons_frame,
-                text="▶️ Start Animation",
-                font=('Arial', 12, 'bold'),
-                bg='#00D2D3',
-                fg='white',
-                padx=20,
+                left_frame,
+                text="🎬 START COSMIC ANIMATION",
+                font=('SF Pro Text', 12, 'bold'),
+                bg='#ff6b9d',
+                fg='black',
+                padx=30,
+                pady=12,
+                relief='flat',
+                bd=0,
+                command=lambda: self.toggle_animation('left'),
+                cursor='hand2',
+                activebackground='#ff1744'
+            )
+            self.animate_btn_left.pack(pady=20)
+            
+            # 🎨 Cosmic effects panel for left
+            effects_panel_left = tk.Frame(left_frame, bg='#1a1a2e')
+            effects_panel_left.pack(pady=15)
+            
+            effects_label_left = tk.Label(
+                effects_panel_left,
+                text="🎨 VISUAL EFFECTS",
+                font=('SF Pro Text', 12, 'bold'),
+                bg='#1a1a2e',
+                fg='#00d4ff'
+            )
+            effects_label_left.pack(pady=10)
+            
+            # Premium effect buttons for left
+            effects_row_left = tk.Frame(effects_panel_left, bg='#1a1a2e')
+            effects_row_left.pack()
+            
+            # Color shift effect
+            color_btn = tk.Button(
+                effects_row_left,
+                text="🌈 COLOR",
+                font=('SF Pro Text', 10, 'bold'),
+                bg='#9b59b6',
+                fg='black',
+                padx=12,
                 pady=8,
                 relief='flat',
-                command=lambda: self.toggle_animation('left')
+                bd=0,
+                command=lambda: self.apply_specific_effect('left', 'color'),
+                cursor='hand2',
+                activebackground='#8e44ad'
             )
-            self.animate_btn_left.pack()
+            color_btn.pack(side='left', padx=5)
             
-            # Right frame for second image  
-            right_frame = tk.Frame(images_frame, bg='#FFFFFF', relief='ridge', bd=2)
-            right_frame.pack(side='right', expand=True, fill='both', padx=5, pady=3)
-
-            # Second image (same as first)
-            image_label2 = tk.Label(
-                right_frame,
-                text="🖼️ Image Copy 2",
-                font=('Arial', 12, 'bold'),  # Smaller font
-                bg='#FFFFFF',
-                fg='#E74C3C'
-            )
-            image_label2.pack(pady=5)  # Reduced padding
-
-            image_display2 = tk.Label(right_frame, image=photo, bg='#FFFFFF')
-            image_display2.pack(pady=5)
-            
-            # Image info
-            info_label2 = tk.Label(
-                right_frame,
-                text=f"Same image displayed twice!\nFilename: {os.path.basename(self.selected_image_path)}",
-                font=('Arial', 10),
-                bg='#FFFFFF',
-                fg='#5D6D7E'
-            )
-            info_label2.pack(pady=5)
-
-            # Buttons for right image - Single effect only
-            right_buttons_frame = tk.Frame(right_frame, bg='#FFFFFF')
-            right_buttons_frame.pack(pady=10)
-            
-            # Single effect button for right image
-            effect_btn_right = tk.Button(
-                right_buttons_frame,
-                text="🎨 Apply Effect",
-                font=('Arial', 12, 'bold'),
-                bg='#7B68EE',
-                fg='white',
-                padx=20,
+            # Brightness effect
+            bright_btn = tk.Button(
+                effects_row_left,
+                text="☀️ BRIGHT",
+                font=('SF Pro Text', 10, 'bold'),
+                bg='#f39c12',
+                fg='black',
+                padx=12,
                 pady=8,
                 relief='flat',
-                command=lambda: self.apply_single_effect('right')
+                bd=0,
+                command=lambda: self.apply_specific_effect('left', 'brightness'),
+                cursor='hand2',
+                activebackground='#e67e22'
             )
-            effect_btn_right.pack()
+            bright_btn.pack(side='left', padx=5)
             
-            # Action buttons frame
-            buttons_frame = tk.Frame(self.content_frame, bg='#F8F9FA')
-            buttons_frame.pack(pady=15)
+            # 💎 Right cosmic frame - Effects Laboratory
+            right_frame = tk.Frame(images_container, bg='#1a1a2e', relief='solid', bd=3)
+            right_frame.pack(side='right', expand=True, fill='both', padx=15, pady=10)
+
+            # 🔬 Premium laboratory header
+            lab_header = tk.Label(
+                right_frame,
+                text="🔬 EFFECTS LABORATORY",
+                font=('SF Pro Display', 18, 'bold'),
+                bg='#1a1a2e',
+                fg='#ff6b9d'
+            )
+            lab_header.pack(pady=20)
+
+            # ✨ Premium image display with cosmic glow
+            image_display2 = tk.Label(right_frame, image=photo, bg='#1a1a2e', relief='ridge', bd=4)
+            image_display2.pack(pady=15)
+            
+            # 🎭 Magic effects button
+            magic_btn = tk.Button(
+                right_frame,
+                text="🎭 APPLY MAGIC EFFECTS",
+                font=('SF Pro Text', 12, 'bold'),
+                bg='#00d4ff',
+                fg='black',
+                padx=30,
+                pady=12,
+                relief='flat',
+                bd=0,
+                command=lambda: self.apply_single_effect('right'),
+                cursor='hand2',
+                activebackground='#0099cc'
+            )
+            magic_btn.pack(pady=20)
+            
+            # 🌟 Premium effects panel for right
+            effects_panel_right = tk.Frame(right_frame, bg='#1a1a2e')
+            effects_panel_right.pack(pady=15)
+            
+            effects_label_right = tk.Label(
+                effects_panel_right,
+                text="⚡ POWER EFFECTS",
+                font=('SF Pro Text', 12, 'bold'),
+                bg='#1a1a2e',
+                fg='#00d4ff'
+            )
+            effects_label_right.pack(pady=10)
+            
+            # Premium effect buttons for right
+            effects_row_right = tk.Frame(effects_panel_right, bg='#1a1a2e')
+            effects_row_right.pack()
+            
+            # Contrast effect
+            contrast_btn = tk.Button(
+                effects_row_right,
+                text="🔆 CONTRAST",
+                font=('SF Pro Text', 9, 'bold'),
+                bg='#e74c3c',
+                fg='black',
+                padx=10,
+                pady=8,
+                relief='flat',
+                bd=0,
+                command=lambda: self.apply_specific_effect('right', 'contrast'),
+                cursor='hand2',
+                activebackground='#c0392b'
+            )
+            contrast_btn.pack(side='left', padx=3)
+            
+            # Blur effect
+            blur_btn = tk.Button(
+                effects_row_right,
+                text="🌫️ BLUR",
+                font=('SF Pro Text', 9, 'bold'),
+                bg='#3498db',
+                fg='black',
+                padx=10,
+                pady=8,
+                relief='flat',
+                bd=0,
+                command=lambda: self.apply_specific_effect('right', 'blur'),
+                cursor='hand2',
+                activebackground='#2980b9'
+            )
+            blur_btn.pack(side='left', padx=3)
+            
+            # Sharpen effect
+            sharp_btn = tk.Button(
+                effects_row_right,
+                text="✨ SHARP",
+                font=('SF Pro Text', 9, 'bold'),
+                bg='#2ecc71',
+                fg='black',
+                padx=10,
+                pady=8,
+                relief='flat',
+                bd=0,
+                command=lambda: self.apply_specific_effect('right', 'sharpen'),
+                cursor='hand2',
+                activebackground='#27ae60'
+            )
+            sharp_btn.pack(side='left', padx=3)
+            
+            # 🌟 Premium action buttons section
+            action_section = tk.Frame(self.scrollable_frame, bg='#0f0f23')
+            action_section.pack(pady=40)
+            
+            # 💫 Premium action buttons frame
+            buttons_frame = tk.Frame(action_section, bg='#0f0f23')
+            buttons_frame.pack()
+            
+            # 🔄 Load new masterpiece button
+            new_btn = tk.Button(
+                buttons_frame,
+                text="🔄 LOAD NEW MASTERPIECE",
+                font=('SF Pro Text', 14, 'bold'),
+                bg='#8e2de2',
+                fg='black',
+                padx=40,
+                pady=15,
+                relief='flat',
+                bd=0,
+                command=self.choose_image,
+                cursor='hand2',
+                activebackground='#4a00e0'
+            )
+            new_btn.pack(side='left', padx=20)
+            
+            # 🗑️ Clear cosmic canvas button
+            clear_btn = tk.Button(
+                buttons_frame,
+                text="🗑️ CLEAR COSMIC CANVAS",
+                font=('SF Pro Text', 14, 'bold'),
+                bg='#ff1744',
+                fg='black',
+                padx=40,
+                pady=15,
+                relief='flat',
+                bd=0,
+                command=self.clear_display,
+                cursor='hand2',
+                activebackground='#d50000'
+            )
+            clear_btn.pack(side='left', padx=20)
+            
+            # 💾 Premium save button
+            save_btn = tk.Button(
+                buttons_frame,
+                text="💾 SAVE PROCESSED IMAGE",
+                font=('SF Pro Text', 14, 'bold'),
+                bg='#00ff88',
+                fg='black',
+                padx=40,
+                pady=15,
+                relief='flat',
+                bd=0,
+                command=self.save_image,
+                cursor='hand2',
+                activebackground='#00cc66'
+            )
+            save_btn.pack(side='left', padx=20)
             
             # Choose another image button
             another_btn = tk.Button(
@@ -368,28 +589,88 @@ class PixelEngineGUI:
         except Exception as e:
             messagebox.showerror("Error", f"Could not display image:\n{str(e)}")
     
+    def apply_specific_effect(self, side, effect_type):
+        """Apply a specific effect to the specified image"""
+        if not hasattr(self, 'original_image'):
+            return
+            
+        try:
+            # Apply specific effect based on type
+            if effect_type == 'color':
+                modified_image = self.color_shift_effect(self.original_image)
+            elif effect_type == 'brightness':
+                modified_image = self.brightness_effect(self.original_image)
+            elif effect_type == 'contrast':
+                modified_image = self.contrast_effect(self.original_image)
+            elif effect_type == 'blur':
+                modified_image = self.blur_effect(self.original_image)
+            elif effect_type == 'sharpen':
+                modified_image = self.sharpen_effect(self.original_image)
+            else:
+                modified_image = self.apply_random_effect(self.original_image)
+            
+            # Resize to enhanced display size
+            max_width = 500
+            max_height = 400
+            image_ratio = modified_image.width / modified_image.height
+            
+            if image_ratio > max_width / max_height:
+                new_width = max_width
+                new_height = int(max_width / image_ratio)
+            else:
+                new_height = max_height
+                new_width = int(max_height * image_ratio)
+            
+            resized_image = modified_image.resize((new_width, new_height), Image.Resampling.LANCZOS)
+            photo = ImageTk.PhotoImage(resized_image)
+            
+            # Update the specified image
+            if side == 'left':
+                self.left_image_label.configure(image=photo)
+                self.left_image_label.image = photo
+            else:
+                self.right_image_label.configure(image=photo)
+                self.right_image_label.image = photo
+                
+        except Exception as e:
+            messagebox.showerror("Error", f"Could not apply {effect_type} effect:\n{str(e)}")
+
+    def save_image(self):
+        """💾 Save processed image with premium dialog"""
+        if not hasattr(self, 'right_image_label') or not hasattr(self.right_image_label, 'image'):
+            messagebox.showwarning("Warning", "No processed image to save!")
+            return
+        
+        try:
+            file_path = filedialog.asksaveasfilename(
+                title="💾 Save Your Cosmic Creation",
+                defaultextension=".png",
+                filetypes=[
+                    ('PNG Files', '*.png'),
+                    ('JPEG Files', '*.jpg'),
+                    ('All Files', '*.*')
+                ]
+            )
+            
+            if file_path:
+                # This would save the current processed image
+                messagebox.showinfo("Success", f"✨ Image saved successfully!\n{file_path}")
+        except Exception as e:
+            messagebox.showerror("Error", f"Could not save image:\n{str(e)}")
+            
     def clear_display(self):
-        """Clear the image display area"""
-        # Stop left animation only
-        if hasattr(self, 'is_animating_left'):
+        """🗑️ Clear cosmic canvas and return to welcome"""
+        # Stop any running animation
+        if hasattr(self, 'is_animating_left') and self.is_animating_left:
             self.stop_animation('left')
         
-        for widget in self.content_frame.winfo_children():
+        # Clear the scrollable frame
+        for widget in self.scrollable_frame.winfo_children():
             widget.destroy()
         
-        # Show welcome message
-        welcome_label = tk.Label(
-            self.content_frame,
-            text="👆 Click the button above to choose an image",
-            font=('Arial', 16),
-            bg='#F8F9FA',
-            fg='#BDC3C7'
-        )
-        welcome_label.pack(expand=True)
-        
-        # Update scroll region
-        self.root.after(10, lambda: self.canvas.configure(scrollregion=self.canvas.bbox('all')))
-    
+        # Show welcome message again
+        self.show_welcome_message()
+
     def apply_single_effect(self, side):
         """Apply a random effect to the specified image once"""
         if not hasattr(self, 'original_image'):

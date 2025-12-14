@@ -8,10 +8,10 @@ cd "$(dirname "$0")"
 # Check if Python is available
 if command -v python3 &> /dev/null; then
     echo "✅ Python3 found. Starting GUI application..."
-    python3 PixelEngine_GUI.py
+    python3 PixelEngine-Desktop.py
 elif command -v python &> /dev/null; then
     echo "✅ Python found. Starting GUI application..."
-    python PixelEngine_GUI.py
+    python PixelEngine-Desktop.py
 else
     echo "❌ Python not found. Trying .NET version..."
     if command -v dotnet &> /dev/null; then
