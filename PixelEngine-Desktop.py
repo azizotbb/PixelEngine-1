@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import tkinter as tk
-from tkinter import messagebox, filedialog
+from tkinter import messagebox, filedialog, ttk
 from PIL import Image, ImageTk, ImageFilter, ImageEnhance
 import subprocess
 import sys
@@ -14,7 +14,8 @@ class PixelEngineGUI:
         self.root = tk.Tk()
         self.root.title("PixelEngine - Desktop Graphics Engine")
         self.root.geometry("1000x700")
-        self.root.configure(bg='white')
+        self.root.minsize(800, 600)  # Minimum window size
+        self.root.configure(bg='#F8F9FA')
         self.root.resizable(True, True)
         
         # Center window on screen
@@ -28,28 +29,31 @@ class PixelEngineGUI:
         self.animation_thread_left = None
         
         self.create_widgets()
+        
+        # Bind window resize event
+        self.root.bind('<Configure>', self.on_window_resize)
     
     def create_widgets(self):
         # Header frame
-        header_frame = tk.Frame(self.root, bg='white', pady=20)
+        header_frame = tk.Frame(self.root, bg='#E8F4FD', pady=20)
         header_frame.pack(fill='x')
         
         # Main title (Logo)
         title_label = tk.Label(
             header_frame,
             text="🎨 PixelEngine",
-            font=('Arial', 36, 'bold'),
-            bg='white',
-            fg='#2E86C1'
+            font=('Arial', 28, 'bold'),  # Smaller font for better scaling
+            bg='#E8F4FD',
+            fg="#2C3E50"
         )
-        title_label.pack(pady=10)
+        title_label.pack(pady=8)
         
         # Subtitle
         subtitle_label = tk.Label(
             header_frame,
             text="Graphics Engine v1.0 - By AbdulAziz",
             font=('Arial', 14),
-            bg='white',
+            bg='#E8F4FD',
             fg='#5D6D7E'
         )
         subtitle_label.pack(pady=5)
@@ -58,34 +62,93 @@ class PixelEngineGUI:
         image_btn = tk.Button(
             header_frame,
             text="🖼️ Choose Image to Display Twice",
-            font=('Arial', 14, 'bold'),
-            bg='#FF6B35',
+            font=('Arial', 12, 'bold'),  # Smaller font
+            bg='#FF4757',
             fg='white',
-            padx=25,
-            pady=10,
+            padx=20,  # Reduced padding
+            pady=8,   # Reduced padding
             relief='raised',
             bd=2,
             command=self.choose_image,
             cursor='hand2'
         )
-        image_btn.pack(pady=15)
+        image_btn.pack(pady=12)
         
         # Instructions label
         instructions_label = tk.Label(
             header_frame,
             text="Click the button to select an image from your computer",
             font=('Arial', 11),
-            bg='white',
+            bg='#E8F4FD',
             fg='#7F8C8D'
         )
         instructions_label.pack()
-        
-        # Main content frame for images
-        self.content_frame = tk.Frame(self.root, bg='white')
-        self.content_frame.pack(fill='both', expand=True, padx=20, pady=10)
+
+        # Create main scrollable frame
+        self.create_scrollable_content()
         
         # Initial welcome message
         self.show_welcome_message()
+    
+    def create_scrollable_content(self):
+        """Create scrollable content area"""
+        # Main container
+        main_container = tk.Frame(self.root, bg='#F8F9FA')
+        main_container.pack(fill='both', expand=True, padx=10, pady=8)
+        
+        # Create canvas and scrollbar
+        self.canvas = tk.Canvas(main_container, bg='#F8F9FA', highlightthickness=0)
+        self.scrollbar = ttk.Scrollbar(main_container, orient='vertical', command=self.canvas.yview)
+        self.scrollable_frame = tk.Frame(self.canvas, bg='#F8F9FA')
+        
+        # Configure scrollable frame
+        self.scrollable_frame.bind(
+            '<Configure>',
+            lambda e: self.canvas.configure(scrollregion=self.canvas.bbox('all'))
+        )
+        
+        # Create window in canvas
+        self.canvas_window = self.canvas.create_window((0, 0), window=self.scrollable_frame, anchor='nw')
+        
+        # Configure canvas scrolling
+        self.canvas.configure(yscrollcommand=self.scrollbar.set)
+        
+        # Bind canvas resize
+        self.canvas.bind('<Configure>', self.on_canvas_configure)
+        
+        # Pack canvas and scrollbar
+        self.canvas.pack(side='left', fill='both', expand=True)
+        self.scrollbar.pack(side='right', fill='y')
+        
+        # Bind mouse wheel scrolling
+        self.bind_mousewheel()
+        
+        # Set content frame to scrollable frame
+        self.content_frame = self.scrollable_frame
+    
+    def on_canvas_configure(self, event):
+        """Handle canvas resize"""
+        # Update scroll region
+        self.canvas.configure(scrollregion=self.canvas.bbox('all'))
+        
+        # Update canvas window width to match canvas width
+        canvas_width = event.width
+        self.canvas.itemconfig(self.canvas_window, width=canvas_width)
+    
+    def bind_mousewheel(self):
+        """Bind mouse wheel events for scrolling"""
+        def on_mousewheel(event):
+            self.canvas.yview_scroll(int(-1*(event.delta/120)), "units")
+        
+        def bind_to_mousewheel(event):
+            self.canvas.bind_all("<MouseWheel>", on_mousewheel)
+        
+        def unbind_from_mousewheel(event):
+            self.canvas.unbind_all("<MouseWheel>")
+        
+        # Bind mouse wheel events when mouse enters/leaves the canvas
+        self.canvas.bind('<Enter>', bind_to_mousewheel)
+        self.canvas.bind('<Leave>', unbind_from_mousewheel)
     
     def show_welcome_message(self):
         """Show welcome message in content area"""
@@ -93,7 +156,7 @@ class PixelEngineGUI:
             self.content_frame,
             text="👆 Click the button above to choose an image",
             font=('Arial', 16),
-            bg='white',
+            bg='#F8F9FA',
             fg='#BDC3C7'
         )
         welcome_label.pack(expand=True)
@@ -133,21 +196,28 @@ class PixelEngineGUI:
                 self.content_frame,
                 text="🖼️ Image Displayed Twice",
                 font=('Arial', 18, 'bold'),
-                bg='white',
+                bg='#F8F9FA',
                 fg='#2E86C1'
             )
             title_label.pack(pady=10)
-            
+
             # Frame for images
-            images_frame = tk.Frame(self.content_frame, bg='white')
+            images_frame = tk.Frame(self.content_frame, bg='#F8F9FA')
             images_frame.pack(expand=True, fill='both', pady=10)
             
             # Open and resize image
             original_image = Image.open(self.selected_image_path)
             
-            # Calculate size to fit in window
-            max_width = 400
-            max_height = 300
+            # Calculate size to fit in window dynamically
+            window_width = self.root.winfo_width()
+            window_height = self.root.winfo_height()
+            
+            # Calculate max size based on window size
+            max_width = min(400, int((window_width - 100) / 2))  # Leave space for padding
+            max_height = min(300, int((window_height - 300) / 2))  # Leave space for header and buttons
+            max_width = max(200, max_width)  # Minimum width
+            max_height = max(150, max_height)  # Minimum height
+            
             image_ratio = original_image.width / original_image.height
             
             if image_ratio > max_width / max_height:
@@ -162,20 +232,20 @@ class PixelEngineGUI:
             photo = ImageTk.PhotoImage(resized_image)
             
             # Left frame for first image
-            left_frame = tk.Frame(images_frame, bg='white', relief='ridge', bd=2)
-            left_frame.pack(side='left', expand=True, fill='both', padx=10, pady=5)
-            
+            left_frame = tk.Frame(images_frame, bg='#FFFFFF', relief='ridge', bd=2)
+            left_frame.pack(side='left', expand=True, fill='both', padx=5, pady=3)
+
             # First image
             image_label1 = tk.Label(
                 left_frame,
                 text="🖼️ Image Copy 1",
-                font=('Arial', 14, 'bold'),
-                bg='white',
+                font=('Arial', 12, 'bold'),  # Smaller font
+                bg='#FFFFFF',
                 fg='#27AE60'
             )
-            image_label1.pack(pady=10)
-            
-            image_display1 = tk.Label(left_frame, image=photo, bg='white')
+            image_label1.pack(pady=5)  # Reduced padding
+
+            image_display1 = tk.Label(left_frame, image=photo, bg='#FFFFFF')
             image_display1.pack(pady=5)
             
             # Image info
@@ -183,13 +253,13 @@ class PixelEngineGUI:
                 left_frame,
                 text=f"Size: {original_image.width}x{original_image.height}\nFormat: {original_image.format}",
                 font=('Arial', 10),
-                bg='white',
+                bg='#FFFFFF',
                 fg='#5D6D7E'
             )
             info_label1.pack(pady=5)
-            
+
             # Buttons for left image - Animation only
-            left_buttons_frame = tk.Frame(left_frame, bg='white')
+            left_buttons_frame = tk.Frame(left_frame, bg='#FFFFFF')
             left_buttons_frame.pack(pady=10)
             
             # Continuous animation button for left image  
@@ -197,7 +267,7 @@ class PixelEngineGUI:
                 left_buttons_frame,
                 text="▶️ Start Animation",
                 font=('Arial', 12, 'bold'),
-                bg='#27AE60',
+                bg='#00D2D3',
                 fg='white',
                 padx=20,
                 pady=8,
@@ -207,20 +277,20 @@ class PixelEngineGUI:
             self.animate_btn_left.pack()
             
             # Right frame for second image  
-            right_frame = tk.Frame(images_frame, bg='white', relief='ridge', bd=2)
-            right_frame.pack(side='right', expand=True, fill='both', padx=10, pady=5)
-            
+            right_frame = tk.Frame(images_frame, bg='#FFFFFF', relief='ridge', bd=2)
+            right_frame.pack(side='right', expand=True, fill='both', padx=5, pady=3)
+
             # Second image (same as first)
             image_label2 = tk.Label(
                 right_frame,
                 text="🖼️ Image Copy 2",
-                font=('Arial', 14, 'bold'),
-                bg='white',
+                font=('Arial', 12, 'bold'),  # Smaller font
+                bg='#FFFFFF',
                 fg='#E74C3C'
             )
-            image_label2.pack(pady=10)
-            
-            image_display2 = tk.Label(right_frame, image=photo, bg='white')
+            image_label2.pack(pady=5)  # Reduced padding
+
+            image_display2 = tk.Label(right_frame, image=photo, bg='#FFFFFF')
             image_display2.pack(pady=5)
             
             # Image info
@@ -228,13 +298,13 @@ class PixelEngineGUI:
                 right_frame,
                 text=f"Same image displayed twice!\nFilename: {os.path.basename(self.selected_image_path)}",
                 font=('Arial', 10),
-                bg='white',
+                bg='#FFFFFF',
                 fg='#5D6D7E'
             )
             info_label2.pack(pady=5)
-            
+
             # Buttons for right image - Single effect only
-            right_buttons_frame = tk.Frame(right_frame, bg='white')
+            right_buttons_frame = tk.Frame(right_frame, bg='#FFFFFF')
             right_buttons_frame.pack(pady=10)
             
             # Single effect button for right image
@@ -242,7 +312,7 @@ class PixelEngineGUI:
                 right_buttons_frame,
                 text="🎨 Apply Effect",
                 font=('Arial', 12, 'bold'),
-                bg='#9B59B6',
+                bg='#7B68EE',
                 fg='white',
                 padx=20,
                 pady=8,
@@ -252,7 +322,7 @@ class PixelEngineGUI:
             effect_btn_right.pack()
             
             # Action buttons frame
-            buttons_frame = tk.Frame(self.content_frame, bg='white')
+            buttons_frame = tk.Frame(self.content_frame, bg='#F8F9FA')
             buttons_frame.pack(pady=15)
             
             # Choose another image button
@@ -260,7 +330,7 @@ class PixelEngineGUI:
                 buttons_frame,
                 text="🔄 Choose Another Image",
                 font=('Arial', 12, 'bold'),
-                bg='#3498DB',
+                bg='#FF9500',
                 fg='white',
                 padx=20,
                 pady=8,
@@ -274,7 +344,7 @@ class PixelEngineGUI:
                 buttons_frame,
                 text="🗑️ Clear Display",
                 font=('Arial', 12, 'bold'),
-                bg='#95A5A6',
+                bg='#E056FD',
                 fg='white',
                 padx=20,
                 pady=8,
@@ -291,6 +361,9 @@ class PixelEngineGUI:
             self.left_image_label = image_display1
             self.right_image_label = image_display2
             self.original_image = original_image
+            
+            # Update scroll region to accommodate new content
+            self.root.after(10, lambda: self.canvas.configure(scrollregion=self.canvas.bbox('all')))
             
         except Exception as e:
             messagebox.showerror("Error", f"Could not display image:\n{str(e)}")
@@ -309,10 +382,13 @@ class PixelEngineGUI:
             self.content_frame,
             text="👆 Click the button above to choose an image",
             font=('Arial', 16),
-            bg='white',
+            bg='#F8F9FA',
             fg='#BDC3C7'
         )
         welcome_label.pack(expand=True)
+        
+        # Update scroll region
+        self.root.after(10, lambda: self.canvas.configure(scrollregion=self.canvas.bbox('all')))
     
     def apply_single_effect(self, side):
         """Apply a random effect to the specified image once"""
@@ -451,7 +527,7 @@ class PixelEngineGUI:
         """Start continuous animation for the left side only"""
         if side == 'left':
             self.is_animating_left = True
-            self.animate_btn_left.configure(text="⏸️ Stop Animation", bg='#E74C3C')
+            self.animate_btn_left.configure(text="⏸️ Stop Animation", bg='#FF4757')
             self.animation_thread_left = threading.Thread(target=self.animate_image, args=('left',))
             self.animation_thread_left.daemon = True
             self.animation_thread_left.start()
@@ -461,7 +537,7 @@ class PixelEngineGUI:
         if side == 'left':
             self.is_animating_left = False
             if hasattr(self, 'animate_btn_left'):
-                self.animate_btn_left.configure(text="▶️ Start Animation", bg='#27AE60')
+                self.animate_btn_left.configure(text="▶️ Start Animation", bg='#00D2D3')
     
     def animate_image(self, side):
         """Continuously animate the left image until stopped"""
@@ -472,6 +548,49 @@ class PixelEngineGUI:
                 time.sleep(0.5)  # Wait 500ms between effects
             except:
                 break
+    
+    def on_window_resize(self, event):
+        """Handle window resize events"""
+        # Only handle resize events for the main window
+        if event.widget == self.root and hasattr(self, 'selected_image_path') and self.selected_image_path:
+            # Update image display if an image is currently shown
+            self.root.after(100, self.update_image_sizes)  # Small delay to avoid rapid updates
+    
+    def update_image_sizes(self):
+        """Update image sizes when window is resized"""
+        if hasattr(self, 'original_image') and hasattr(self, 'left_image_label'):
+            try:
+                # Recalculate sizes
+                window_width = self.root.winfo_width()
+                window_height = self.root.winfo_height()
+                
+                max_width = min(400, int((window_width - 100) / 2))
+                max_height = min(300, int((window_height - 300) / 2))
+                max_width = max(200, max_width)
+                max_height = max(150, max_height)
+                
+                image_ratio = self.original_image.width / self.original_image.height
+                
+                if image_ratio > max_width / max_height:
+                    new_width = max_width
+                    new_height = int(max_width / image_ratio)
+                else:
+                    new_height = max_height
+                    new_width = int(max_height * image_ratio)
+                
+                # Resize and update images
+                resized_image = self.original_image.resize((new_width, new_height), Image.Resampling.LANCZOS)
+                photo = ImageTk.PhotoImage(resized_image)
+                
+                self.left_image_label.configure(image=photo)
+                self.left_image_label.image = photo
+                self.right_image_label.configure(image=photo)
+                self.right_image_label.image = photo
+                
+                # Update scroll region after image resize
+                self.root.after(10, lambda: self.canvas.configure(scrollregion=self.canvas.bbox('all')))
+            except:
+                pass  # Ignore errors during resize
     
     def run(self):
         self.root.mainloop()
