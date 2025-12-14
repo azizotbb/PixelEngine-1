@@ -39,14 +39,14 @@ namespace PixelEngine.MacApp
         public static void Main(string[] args)
         {
             Console.Title = "PixelEngine - Graphics Engine";
-            
+
             // Force white background and black text
             Console.BackgroundColor = ConsoleColor.White;
             Console.ForegroundColor = ConsoleColor.Black;
             Console.Clear();
 
             // Set terminal size for better display
-            try 
+            try
             {
                 Console.SetWindowSize(80, 30);
             }
@@ -65,7 +65,7 @@ namespace PixelEngine.MacApp
                 Console.ForegroundColor = ConsoleColor.DarkBlue;
                 Console.WriteLine("\n🎨 PixelEngine Graphics Engine v1.0\n");
                 Console.WriteLine(titleFrames[i % 2]);
-                
+
                 // Colorful features with emojis
                 Console.ForegroundColor = ConsoleColor.DarkGreen;
                 Console.WriteLine("   🚀 Cross-platform graphics");
@@ -75,10 +75,10 @@ namespace PixelEngine.MacApp
                 Console.WriteLine("   🖥️  Mac optimized");
                 Console.ForegroundColor = ConsoleColor.DarkCyan;
                 Console.WriteLine("   ⚡ High performance");
-                
+
                 Console.ForegroundColor = ConsoleColor.Black;
                 Console.WriteLine("\n   Loading... Press any key to continue");
-                
+
                 Thread.Sleep(1000);
             }
 
@@ -88,7 +88,7 @@ namespace PixelEngine.MacApp
             Console.ForegroundColor = ConsoleColor.DarkBlue;
             Console.WriteLine("\n🎨 PixelEngine Graphics Engine v1.0\n");
             Console.WriteLine(titleFrames[0]);
-            
+
             // Menu with better styling
             Console.ForegroundColor = ConsoleColor.DarkGreen;
             Console.WriteLine("   📋 Features:");
@@ -96,14 +96,14 @@ namespace PixelEngine.MacApp
             Console.WriteLine("   • Pixel-perfect animations");
             Console.WriteLine("   • Cross-platform support");
             Console.WriteLine("   • Easy-to-use API");
-            
+
             Console.ForegroundColor = ConsoleColor.DarkMagenta;
             Console.WriteLine("\n   📊 System Info:");
             Console.WriteLine($"   🎯 Status: Ready");
             Console.WriteLine($"   🖥️  Platform: {Environment.OSVersion.Platform}");
             Console.WriteLine($"   📦 Version: 1.0.0");
             Console.WriteLine($"   👤 Author: AbdulAziz");
-            
+
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("\n   🚀 PixelEngine is ready to use!");
             Console.ForegroundColor = ConsoleColor.Black;

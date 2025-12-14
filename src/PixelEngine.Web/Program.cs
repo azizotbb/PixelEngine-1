@@ -268,7 +268,7 @@ Console.WriteLine("📱 The application will open in your default web browser");
 Console.WriteLine("⏹️  Press Ctrl+C to stop the server");
 
 // Auto-open browser
-try 
+try
 {
     System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
     {
@@ -277,7 +277,7 @@ try
         UseShellExecute = true
     });
 }
-catch 
+catch
 {
     Console.WriteLine("Could not auto-open browser. Please manually open http://localhost:5000");
 }

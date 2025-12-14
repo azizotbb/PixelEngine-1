@@ -23,11 +23,11 @@ namespace PixelEngine
         {
             // Set white background
             this.Background = new SolidColorBrush(Colors.White);
-            
+
             // Configure window
             this.WindowState = WindowState.Maximized;
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-            
+
             // Add shadow effect
             this.Effect = new System.Windows.Media.Effects.DropShadowEffect()
             {
@@ -93,7 +93,7 @@ namespace PixelEngine
         /// </summary>
         private void AboutButton_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("PixelEngine v1.0\n\nAdvanced graphics engine built with C# and WPF\n\nDeveloped by: AbdulAziz", 
+            MessageBox.Show("PixelEngine v1.0\n\nAdvanced graphics engine built with C# and WPF\n\nDeveloped by: AbdulAziz",
                 "About", MessageBoxButton.OK, MessageBoxImage.Information);
         }
     }

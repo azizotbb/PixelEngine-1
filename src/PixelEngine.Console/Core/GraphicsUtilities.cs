@@ -84,12 +84,12 @@ namespace PixelEngine.Console.Core
         /// Create color gradient between two colors
         /// </summary>
         public static (int R, int G, int B)[] CreateGradient(
-            (int R, int G, int B) startColor, 
-            (int R, int G, int B) endColor, 
+            (int R, int G, int B) startColor,
+            (int R, int G, int B) endColor,
             int steps)
         {
             if (steps <= 0) throw new ArgumentException("Number of steps must be greater than zero", nameof(steps));
-            
+
             var gradient = new (int R, int G, int B)[steps];
 
             for (int i = 0; i < steps; i++)
@@ -110,8 +110,8 @@ namespace PixelEngine.Console.Core
         /// Blend two colors with specified ratio
         /// </summary>
         public static (int R, int G, int B) BlendColors(
-            (int R, int G, int B) color1, 
-            (int R, int G, int B) color2, 
+            (int R, int G, int B) color1,
+            (int R, int G, int B) color2,
             double ratio)
         {
             if (ratio < 0 || ratio > 1)
@@ -140,7 +140,7 @@ namespace PixelEngine.Console.Core
         /// Calculate distance between two colors
         /// </summary>
         public static double CalculateColorDistance(
-            (int R, int G, int B) color1, 
+            (int R, int G, int B) color1,
             (int R, int G, int B) color2)
         {
             double rDiff = color1.R - color2.R;

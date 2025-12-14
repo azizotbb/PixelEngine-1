@@ -10,7 +10,7 @@ namespace PixelEngine
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            
+
             // Launch main window
             var mainWindow = new MainWindow();
             mainWindow.Show();

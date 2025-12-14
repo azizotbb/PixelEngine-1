@@ -8,14 +8,14 @@ namespace PixelEngine.GUI
     {
         private Timer animationTimer;
         private int animationStep = 0;
-        
+
         public MainForm()
         {
             InitializeComponent();
             SetupWindow();
             StartAnimation();
         }
-        
+
         private void SetupWindow()
         {
             // Window properties
@@ -25,11 +25,11 @@ namespace PixelEngine.GUI
             this.StartPosition = FormStartPosition.CenterScreen;
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
-            
+
             // Add controls
             CreateControls();
         }
-        
+
         private void CreateControls()
         {
             // Title Label
@@ -41,7 +41,7 @@ namespace PixelEngine.GUI
             titleLabel.Size = new Size(300, 50);
             titleLabel.TextAlign = ContentAlignment.MiddleCenter;
             this.Controls.Add(titleLabel);
-            
+
             // Subtitle Label
             Label subtitleLabel = new Label();
             subtitleLabel.Text = "Advanced Graphics Engine";
@@ -51,7 +51,7 @@ namespace PixelEngine.GUI
             subtitleLabel.Size = new Size(300, 30);
             subtitleLabel.TextAlign = ContentAlignment.MiddleCenter;
             this.Controls.Add(subtitleLabel);
-            
+
             // Info Label
             Label infoLabel = new Label();
             infoLabel.Text = "✨ Features:\n🎨 Pixel Management\n🌈 Color Processing\n🔧 Graphics Utilities\n💻 Cross-Platform Support";
@@ -60,7 +60,7 @@ namespace PixelEngine.GUI
             infoLabel.Location = new Point(50, 250);
             infoLabel.Size = new Size(300, 150);
             this.Controls.Add(infoLabel);
-            
+
             // Pixel Art Panel
             Panel pixelPanel = new Panel();
             pixelPanel.Location = new Point(450, 250);
@@ -68,7 +68,7 @@ namespace PixelEngine.GUI
             pixelPanel.BackColor = Color.LightGray;
             pixelPanel.Paint += PixelPanel_Paint;
             this.Controls.Add(pixelPanel);
-            
+
             // About Button
             Button aboutButton = new Button();
             aboutButton.Text = "About";
@@ -79,7 +79,7 @@ namespace PixelEngine.GUI
             aboutButton.FlatStyle = FlatStyle.Flat;
             aboutButton.Click += AboutButton_Click;
             this.Controls.Add(aboutButton);
-            
+
             // Exit Button
             Button exitButton = new Button();
             exitButton.Text = "Exit";
@@ -90,7 +90,7 @@ namespace PixelEngine.GUI
             exitButton.FlatStyle = FlatStyle.Flat;
             exitButton.Click += ExitButton_Click;
             this.Controls.Add(exitButton);
-            
+
             // Status Label
             Label statusLabel = new Label();
             statusLabel.Text = "Ready - PixelEngine v1.0";
@@ -100,17 +100,17 @@ namespace PixelEngine.GUI
             statusLabel.Size = new Size(200, 20);
             this.Controls.Add(statusLabel);
         }
-        
+
         private void PixelPanel_Paint(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
-            
+
             // Draw pixel art pattern
-            Color[] colors = { 
-                Color.Red, Color.Green, Color.Blue, Color.Yellow, 
-                Color.Purple, Color.Orange, Color.Pink, Color.Cyan 
+            Color[] colors = {
+                Color.Red, Color.Green, Color.Blue, Color.Yellow,
+                Color.Purple, Color.Orange, Color.Pink, Color.Cyan
             };
-            
+
             int pixelSize = 20;
             for (int x = 0; x < 8; x++)
             {
@@ -123,7 +123,7 @@ namespace PixelEngine.GUI
                 }
             }
         }
-        
+
         private void StartAnimation()
         {
             animationTimer = new Timer();
@@ -131,24 +131,24 @@ namespace PixelEngine.GUI
             animationTimer.Tick += AnimationTimer_Tick;
             animationTimer.Start();
         }
-        
+
         private void AnimationTimer_Tick(object sender, EventArgs e)
         {
             animationStep++;
             this.Invalidate(); // Redraw the form
         }
-        
+
         private void AboutButton_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("PixelEngine v1.0\n\nAdvanced Graphics Engine\nBuilt with C# and Windows Forms\n\nDeveloped by: AbdulAziz", 
+            MessageBox.Show("PixelEngine v1.0\n\nAdvanced Graphics Engine\nBuilt with C# and Windows Forms\n\nDeveloped by: AbdulAziz",
                            "About PixelEngine", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
-        
+
         private void ExitButton_Click(object sender, EventArgs e)
         {
             this.Close();
         }
-        
+
         protected override void OnFormClosed(FormClosedEventArgs e)
         {
             animationTimer?.Stop();
@@ -156,7 +156,7 @@ namespace PixelEngine.GUI
             base.OnFormClosed(e);
         }
     }
-    
+
     // Auto-generated Designer code placeholder
     public partial class MainForm
     {
@@ -166,7 +166,7 @@ namespace PixelEngine.GUI
             this.ResumeLayout(false);
         }
     }
-    
+
     class Program
     {
         [STAThread]

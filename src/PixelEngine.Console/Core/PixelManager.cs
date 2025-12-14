@@ -76,37 +76,37 @@ namespace PixelEngine.Console.Core
         public PixelStatistics GetStatistics()
         {
             var stats = new PixelStatistics();
-            
+
             for (int x = 0; x < Width; x++)
             {
                 for (int y = 0; y < Height; y++)
                 {
                     var pixel = PixelData[x, y];
-                    
+
                     // Calculate average colors
                     stats.TotalRed += pixel.R;
                     stats.TotalGreen += pixel.G;
                     stats.TotalBlue += pixel.B;
-                    
+
                     // Count white pixels
                     if (pixel.R == 255 && pixel.G == 255 && pixel.B == 255)
                         stats.WhitePixels++;
-                    
+
                     // Count black pixels
                     if (pixel.R == 0 && pixel.G == 0 && pixel.B == 0)
                         stats.BlackPixels++;
-                        
+
                     stats.TotalPixels++;
                 }
             }
-            
+
             if (stats.TotalPixels > 0)
             {
                 stats.AverageRed = stats.TotalRed / stats.TotalPixels;
                 stats.AverageGreen = stats.TotalGreen / stats.TotalPixels;
                 stats.AverageBlue = stats.TotalBlue / stats.TotalPixels;
             }
-            
+
             return stats;
         }
     }

@@ -43,6 +43,7 @@ PixelEngine-CSharp/
 ## 🚀 Getting Started
 
 ### Requirements
+
 - .NET 10.0 or later
 - macOS 10.15+ (for Mac version)
 - Windows 10+ (for WPF version)
@@ -51,46 +52,55 @@ PixelEngine-CSharp/
 ### Quick Start (macOS)
 
 1. **Clone the repository**
+
 ```bash
 git clone https://github.com/azizotbb/PixelEngine-CSharp.git
 cd PixelEngine-CSharp
 ```
 
 2. **Run directly on Mac**
+
 ```bash
 ./run-mac.sh
 ```
 
 3. **Create Mac App Bundle (Optional)**
+
 ```bash
 ./create-mac-app.sh
 ```
+
 Then double-click `PixelEngine.app` to run
 
 ### Build and Run (All Platforms)
 
 **For Console version (cross-platform):**
+
 ```bash
 dotnet run --project src/PixelEngine.Console
 ```
 
 **For Mac-optimized version:**
+
 ```bash
 dotnet run --project src/PixelEngine.Mac
 ```
 
 **For WPF version (Windows only):**
+
 ```bash
 dotnet run --project src/PixelEngine
 ```
 
 Or using Visual Studio:
+
 1. Open `PixelEngine.sln`
 2. Press F5 to run
 
 ## 🎯 Usage
 
 ### Main Interface
+
 - **PixelEngine Logo** - Colorful logo displayed at top
 - **Main Title** - "PixelEngine" with elegant fonts and visual effects
 - **Subtitle** - Engine description
@@ -100,6 +110,7 @@ Or using Visual Studio:
 ### Core Components
 
 #### PixelManager
+
 ```csharp
 var pixelManager = new PixelManager(800, 600);
 pixelManager.SetPixel(100, 100, Colors.Red);
@@ -107,6 +118,7 @@ Color pixelColor = pixelManager.GetPixel(100, 100);
 ```
 
 #### GraphicsUtilities
+
 ```csharp
 // RGB to HSL conversion
 var hsl = GraphicsUtilities.RgbToHsl(Colors.Red);
@@ -121,6 +133,7 @@ var blurredColor = GraphicsUtilities.BlurPixel(pixelManager, x, y, radius);
 ## 🎨 Design
 
 ### Color Palette
+
 - **Background**: Pure white (`#FFFFFF`)
 - **Primary Text**: Dark gray (`#2C3E50`)
 - **Secondary Text**: Medium gray (`#7F8C8D`)
@@ -128,6 +141,7 @@ var blurredColor = GraphicsUtilities.BlurPixel(pixelManager, x, y, radius);
 - **Pixel Logo**: Vibrant and diverse colors
 
 ### Typography
+
 - **Main Title**: Segoe UI Light, 48px
 - **Body Text**: Segoe UI, 18px
 - **Buttons**: Segoe UI, 14px
@@ -135,11 +149,13 @@ var blurredColor = GraphicsUtilities.BlurPixel(pixelManager, x, y, radius);
 ## 🔧 Development
 
 ### Adding New Features
+
 1. Add new files in appropriate folders
 2. Use `GlobalUsings.cs` for common imports
 3. Follow existing naming and documentation patterns
 
 ### Dependencies
+
 - `Microsoft.WindowsAPICodePack.Shell` - For OS integration
 
 ## 📄 License
@@ -149,11 +165,13 @@ This project is open source and available under the MIT License.
 ## 👤 Developer
 
 **AbdulAziz**
+
 - GitHub: [@azizotbb](https://github.com/azizotbb)
 
 ## 🤝 Contributing
 
 Contributions are welcome! Please:
+
 1. Fork the repository
 2. Create a feature branch
 3. Commit your changes
