@@ -1,0 +1,48 @@
+# Ignore .NET build files
+bin/
+obj/
+out/
+
+# Ignore Visual Studio files
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Ignore ReSharper files
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+# Ignore publish files
+publish/
+*.publish.xml
+
+# Ignore local database files
+*.mdf
+*.ldf
+
+# Ignore system files
+.DS_Store
+Thumbs.db
+
+# Ignore other IDE files
+*.swp
+*.swo
+*~
+
+# Ignore NuGet files
+*.nuget.props
+*.nuget.targets
+
+# Ignore coverage files
+coverage*.json
+coverage*.xml
+coverage*.info
+
+# Ignore generated documentation
+docs/_site/
+
+# Ignore log files
+*.log
